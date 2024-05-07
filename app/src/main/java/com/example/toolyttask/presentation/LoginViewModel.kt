@@ -1,5 +1,6 @@
 package com.example.toolyttask.presentation
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -35,7 +36,15 @@ class LoginViewModel @Inject constructor(
 
     private var isSubmitFormButtonClicked = mutableStateOf(false)
 
-    private val PHONE_NUMBER_REGEX = Regex("^\\+?(91)?[6789]\\d{9}\$")
+    private val PHONE_NUMBER_REGEX = Regex("^\\+?[6789]\\d{9}\$")
+
+    private var _isRequestOTPButtonClicked = mutableStateOf(false)
+    val isRequestOTPButtonClicked = _isRequestOTPButtonClicked
+
+    private var _otpDigits: MutableList<String> = MutableList(4) { "" }
+    val otpDigits: MutableList<String> = _otpDigits
+
+
     fun updateFirstName(updatedFirstName: String) {
         _firstName.value = updatedFirstName
     }
@@ -52,7 +61,7 @@ class LoginViewModel @Inject constructor(
         _postCode.value = updatedPostCode
     }
 
-    fun sendLoginDetails():Boolean {
+    fun sendLoginDetails(): Boolean {
         // Define regular expressions for Indian phone number and post code
 //        val PHONE_NUMBER_REGEX = Regex("^\\+?(91)?[6789]\\d{9}\$")
         val POST_CODE_REGEX = Regex("^[1-9][0-9]{5}\$")
@@ -75,14 +84,14 @@ class LoginViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 loginRepository.sendLogin(
                     Login(
-                    firstName=firstName.value,
-                    lastName=lastName.value,
-                    phoneNumber=phoneNumber.value,
-                    postCode=postCode.value
-                )
+                        firstName = firstName.value,
+                        lastName = lastName.value,
+                        phoneNumber = phoneNumber.value,
+                        postCode = postCode.value
+                    )
                 )
             }
-            isSubmitFormButtonClicked.value=false
+            isSubmitFormButtonClicked.value = false
 
             return true
 
@@ -90,18 +99,20 @@ class LoginViewModel @Inject constructor(
         return false
     }
 
-    fun generateOTP(phoneNumber: String): String {
+    fun generateOTP(){
         // Clean the phone number by removing non-numeric characters
-        val cleanedPhoneNumber = phoneNumber.filter { it.isDigit() }
+        val cleanedPhoneNumber = _phoneNumber.value.filter { it.isDigit() }
 
         // Check if the cleaned phone number is a valid Indian phone number
         if (!PHONE_NUMBER_REGEX.matches(cleanedPhoneNumber)) {
-            return "" // Return empty string if the phone number is invalid
+            println("Invalid phone number: $cleanedPhoneNumber")
+            return // Exit the function
         }
 
         // Check if the cleaned phone number has at least 4 digits
         if (cleanedPhoneNumber.length < 4) {
-            return "" // Return empty string if the phone number is too short
+            println("Phone number is too short: $cleanedPhoneNumber")
+            return // Exit the function
         }
 
         // Extract the first two digits and the last two digits of the cleaned phone number
@@ -113,8 +124,19 @@ class LoginViewModel @Inject constructor(
 
         // Update the value of the OTP MutableState
         OTP.value = generatedOTP
-
-        return generatedOTP
+        _isRequestOTPButtonClicked.value=true
+        Log.d("DIRAJ","${OTP.value}")
     }
+
+
+    fun updateDigit(index: Int, newValue: String) {
+        otpDigits[index] = newValue.takeLast(1)
+    }
+
+    fun compareDigits(): Boolean {
+        val enteredOTP = otpDigits.joinToString(separator = "")
+        return enteredOTP == OTP.value
+    }
+
 
 }

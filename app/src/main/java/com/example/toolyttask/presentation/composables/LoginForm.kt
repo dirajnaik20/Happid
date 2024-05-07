@@ -2,18 +2,15 @@ package com.example.toolyttask.presentation.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -34,7 +31,19 @@ import androidx.compose.ui.unit.sp
 fun LoginForm(
     getPhoneNumber: () -> MutableState<String>,
     updatePhoneNumber: (String) -> Unit,
+    requestOTP: () -> Unit,
+    onDismissRequest: () -> Unit,
+    isRequestOTPButtonClicked: () -> Boolean,
+    getFetchedOTP: () -> String
+
 ) {
+
+    if (isRequestOTPButtonClicked()) {
+        OTPDialogueBox(
+            onDismissRequest = onDismissRequest,
+            getFetchedOTP = getFetchedOTP
+        )
+    }
 
     val phoneNumber: MutableState<String> = getPhoneNumber()
     Column(
@@ -96,6 +105,7 @@ fun LoginForm(
 
             Button(
                 onClick = {
+                    requestOTP()
                 },
                 modifier = Modifier
                     .fillMaxWidth()

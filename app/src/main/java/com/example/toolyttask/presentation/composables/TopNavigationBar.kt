@@ -23,7 +23,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TopNavigationBar(){
+fun TopNavigationBar(
+    navigateBackStack:() -> Unit
+){
 
     Row(
         modifier = Modifier
@@ -41,6 +43,7 @@ fun TopNavigationBar(){
                 .size(45.dp)
                 .background(Color.White)
                 .clickable {
+                           navigateBackStack()
 
                 },
             contentAlignment = Alignment.Center

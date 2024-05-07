@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.example.toolyttask.presentation.LoginViewModel
 import com.example.toolyttask.presentation.screens.Landing
 import com.example.toolyttask.presentation.screens.Login
+import com.example.toolyttask.presentation.screens.OTP
 import com.example.toolyttask.presentation.screens.Profile
 import com.example.toolyttask.presentation.screens.Started
 
@@ -17,7 +18,7 @@ fun AppNavHost(
     loginViewModel: LoginViewModel,
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String = NavigationItem.Login.route,
+    startDestination: String = NavigationItem.Landing.route,
 ) {
     NavHost(
         modifier = modifier,
@@ -40,6 +41,33 @@ fun AppNavHost(
                 },
                 updatePhoneNumber = {
                     loginViewModel.updatePhoneNumber(it)
+                },
+                requestOTP = {
+                    loginViewModel.generateOTP()
+                },
+                onDismissRequest = {
+                    navController.navigate(NavigationItem.OTP.route)
+                },
+                isRequestOTPButtonClicked = {
+                    return@Login loginViewModel.isRequestOTPButtonClicked.value
+                },
+                getFetchedOTP = {
+                    return@Login loginViewModel.OTP.value
+                }
+            )
+        }
+
+        composable(NavigationItem.OTP.route) {
+            OTP(
+                navController,
+                getSavedNumber = {
+                    return@OTP loginViewModel.phoneNumber.value
+                },
+                updateDigit = {index,digit->
+                    loginViewModel.updateDigit(index,digit)
+                },
+                getOtpDigitList = {
+                    return@OTP loginViewModel.otpDigits
                 }
             )
         }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,21 +16,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.toolyttask.presentation.composables.LoginForm
+import com.example.toolyttask.presentation.composables.OTPForm
 import com.example.toolyttask.presentation.composables.TopNavigationBar
+import com.example.toolyttask.presentation.navigation.NavigationItem
 
 @Composable
-fun Login(
+fun OTP(
     navController: NavController,
-    getPhoneNumber: () -> MutableState<String>,
-    updatePhoneNumber: (String) -> Unit,
-    requestOTP:() -> Unit,
-    onDismissRequest: () -> Unit,
-    isRequestOTPButtonClicked:()->Boolean,
-    getFetchedOTP:() -> String
-
-
-) {
+    getSavedNumber: () -> String,
+    getOtpDigitList:()->MutableList<String>,
+    updateDigit:(Int,String)->Unit
+){
 
     Column(
         modifier = Modifier
@@ -57,12 +52,12 @@ fun Login(
             ) {
 
                 Text(
-                    text = "Enter Your Mobile Number",
+                    text = "Enter Your Verification Code",
                     fontSize = 45.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Hello, Welcome Back To Our Account",
+                    text = "We Have Sent The Code Verification to Your Mobile Number",
                     fontSize = 20.sp,
                 )
 
@@ -70,15 +65,17 @@ fun Login(
 
 
         }
-        LoginForm(
-            getPhoneNumber=getPhoneNumber,
-            updatePhoneNumber=updatePhoneNumber,
-            requestOTP=requestOTP,
-            onDismissRequest = onDismissRequest,
-            isRequestOTPButtonClicked = isRequestOTPButtonClicked,
-            getFetchedOTP=getFetchedOTP
+
+        OTPForm(
+            getSavedNumber=getSavedNumber,
+            updateDigit=updateDigit,
+            getOtpDigitList = getOtpDigitList,
+            navigateToProfile = {
+                navController.navigate(NavigationItem.Profile.route)
+            }
 
         )
+
     }
 
 }

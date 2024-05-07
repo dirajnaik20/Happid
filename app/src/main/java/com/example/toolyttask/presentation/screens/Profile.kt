@@ -65,6 +65,8 @@ fun Profile(
                     .background(Color.White)
                     .clickable {
 
+                        navController.popBackStack()
+
                     },
                 contentAlignment = Alignment.Center
             ) {
@@ -123,7 +125,7 @@ fun Profile(
             updatePhoneNumber = updatePhoneNumber,
             getPostCode = getPostCode,
             updatePostCode = updatePostCode,
-            submitForm=submitForm
+            submitForm = submitForm
 
         )
 
