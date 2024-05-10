@@ -75,7 +75,7 @@ fun DigitsInput(
                                 modifier = Modifier
                                     .width(40.dp)
                                     .height(40.dp)
-                                    .background(colorResource(id = R.color.light_orange))
+                                    .background(colorResource(id = R.color.light_orange_2))
                             ) {
                                 Text(
                                     text = number,

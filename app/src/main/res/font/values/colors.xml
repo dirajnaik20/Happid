@@ -7,11 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="light_orange_1">#fff2ea</color>
-    <color name="light_orange_2">#feede2</color>
-    <color name="light_orange_3">#feddc9</color>
-    <color name="light_orange_4">#ff6d16</color>
-    <color name="gray_1">#595959</color>
-    <color name="button_indigo">#5900cc</color>
-    <color name="gray_2">#a9a9a9</color>
+    <color name="floatingButton">#03A9F4</color>
+    <color name="addAccountButton">#212323</color>
+    <color name="fontColorGray">#707070</color>
+    <color name="mainScreenBackground">#f8f8ff</color>
+    <color name="accountDetailsHeadingColor">#03A9F4</color>
 </resources>
