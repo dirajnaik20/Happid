@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +19,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -25,8 +28,8 @@ import com.example.toolyttask.R
 
 @Composable
 fun DigitsInput(
-    getDigit:()-> MutableState<String>,
-    updateDigit:(String)->Unit
+    getDigit: () -> MutableState<String>,
+    updateDigit: (String) -> Unit
 ) {
     val otpText by remember { getDigit() }
 
@@ -49,7 +52,8 @@ fun DigitsInput(
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                ,
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -67,14 +71,14 @@ fun DigitsInput(
                         }
 
                         Column(
-
                             verticalArrangement = Arrangement.SpaceBetween,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .width(40.dp)
-                                    .height(40.dp)
+                                    .width(80.dp)
+                                    .height(70.dp)
+                                    .clip(RoundedCornerShape(8.dp))
                                     .background(colorResource(id = R.color.light_orange_2))
                             ) {
                                 Text(

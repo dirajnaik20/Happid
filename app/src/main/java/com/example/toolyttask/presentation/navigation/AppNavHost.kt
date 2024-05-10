@@ -61,9 +61,6 @@ fun AppNavHost(
         composable(NavigationItem.OTP.route) {
             OTP(
                 navController,
-                getSavedNumber = {
-                    return@OTP loginViewModel.phoneNumber.value
-                },
                 updateDigit = {
                     Log.d("DIRAJ","In update digit last lamda")
                     loginViewModel.updateInputOTP(it)
@@ -74,6 +71,12 @@ fun AppNavHost(
                 },
                 compareOTP = {
                     return@OTP loginViewModel.compareOTP()
+                },
+                getPhoneNumberToEdit = {
+                    return@OTP loginViewModel.phoneNumber
+                },
+                updateEditedPhoneNumber = {
+                    loginViewModel.updatePhoneNumber(it)
                 }
             )
         }

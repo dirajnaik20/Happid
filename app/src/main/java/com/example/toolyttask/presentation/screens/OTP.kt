@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,14 +20,17 @@ import androidx.navigation.NavController
 import com.example.toolyttask.presentation.composables.OTPForm
 import com.example.toolyttask.presentation.composables.TopNavigationBar
 import com.example.toolyttask.presentation.navigation.NavigationItem
+import com.example.toolyttask.ui.theme.fontFamilyRobotoBold
+import com.example.toolyttask.R
 
 @Composable
 fun OTP(
     navController: NavController,
-    getSavedNumber: () -> String,
     getDigit:()-> MutableState<String>,
     updateDigit:(String)->Unit,
-    compareOTP:()-> Boolean
+    compareOTP:()-> Boolean,
+    getPhoneNumberToEdit: () -> MutableState<String>,
+    updateEditedPhoneNumber: (String) -> Unit
 ){
 
     Column(
@@ -43,7 +46,7 @@ fun OTP(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(250.dp)
-                .background(Color.Green),
+                .background(colorResource(id = R.color.light_orange_1)),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -56,11 +59,17 @@ fun OTP(
                 Text(
                     text = "Enter Your Verification Code",
                     fontSize = 45.sp,
+                    fontFamily = fontFamilyRobotoBold,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "We Have Sent The Code Verification to Your Mobile Number",
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
+                    fontFamily = fontFamilyRobotoBold,
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(id = R.color.gray_1),
+                    modifier = Modifier
+                        .padding(top=5.dp)
                 )
 
             }
@@ -69,13 +78,14 @@ fun OTP(
         }
 
         OTPForm(
-            getSavedNumber=getSavedNumber,
             updateDigit=updateDigit,
             getDigit= getDigit,
             navigateToProfile = {
                 navController.navigate(NavigationItem.Profile.route)
             },
-            compareOTP = compareOTP
+            compareOTP = compareOTP,
+            getPhoneNumberToEdit = getPhoneNumberToEdit,
+            updateEditedPhoneNumber = updateEditedPhoneNumber
 
         )
 
