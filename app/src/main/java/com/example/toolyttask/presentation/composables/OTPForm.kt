@@ -1,6 +1,6 @@
 package com.example.toolyttask.presentation.composables
 
-import DigitsInput
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,19 +15,24 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun OTPForm(
     getSavedNumber: () -> String,
-    getOtpDigitList: () -> MutableList<String>,
-    updateDigit: (Int, String) -> Unit,
-    navigateToProfile:() -> Unit
+    getDigit: () -> MutableState<String>,
+    updateDigit: (String) -> Unit,
+    navigateToProfile: () -> Unit,
+    compareOTP:()-> Boolean
 
-    ) {
+) {
+
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -53,14 +58,25 @@ fun OTPForm(
                 Text(text = getSavedNumber())
                 Icon(imageVector = Icons.Default.Person, contentDescription = "")
             }
+//            DigitsInput(
+//                getOtpDigitList = getOtpDigitList,
+//                updateDigit = updateDigit
+//            )
+
             DigitsInput(
-                getOtpDigitList = getOtpDigitList,
+                getDigit = getDigit,
                 updateDigit = updateDigit
             )
 
             Button(
                 onClick = {
-                          navigateToProfile()
+                    if (compareOTP()){
+                        Toast.makeText(context,"LOGIN SUCCESS",Toast.LENGTH_LONG).show()
+                        navigateToProfile()
+                    }else{
+                        Toast.makeText(context,"ENTERED OTP INCORRECT",Toast.LENGTH_LONG).show()
+                    }
+
 
                 },
                 modifier = Modifier

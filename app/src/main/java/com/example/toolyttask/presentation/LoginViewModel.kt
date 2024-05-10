@@ -41,8 +41,8 @@ class LoginViewModel @Inject constructor(
     private var _isRequestOTPButtonClicked = mutableStateOf(false)
     val isRequestOTPButtonClicked = _isRequestOTPButtonClicked
 
-    private var _otpDigits: MutableList<String> = MutableList(4) { "" }
-    val otpDigits: MutableList<String> = _otpDigits
+    private var _inputOTP = mutableStateOf("")
+    val inputOTP = _inputOTP
 
 
     fun updateFirstName(updatedFirstName: String) {
@@ -99,7 +99,7 @@ class LoginViewModel @Inject constructor(
         return false
     }
 
-    fun generateOTP(){
+    fun generateOTP() {
         // Clean the phone number by removing non-numeric characters
         val cleanedPhoneNumber = _phoneNumber.value.filter { it.isDigit() }
 
@@ -124,18 +124,25 @@ class LoginViewModel @Inject constructor(
 
         // Update the value of the OTP MutableState
         OTP.value = generatedOTP
-        _isRequestOTPButtonClicked.value=true
-        Log.d("DIRAJ","${OTP.value}")
+        _isRequestOTPButtonClicked.value = true
+        Log.d("DIRAJ", "${OTP.value}")
     }
 
 
-    fun updateDigit(index: Int, newValue: String) {
-        otpDigits[index] = newValue.takeLast(1)
+    fun updateInputOTP(updatedInputOTP: String) {
+        _inputOTP.value = updatedInputOTP
+        Log.d("DIRAJ",inputOTP.value)
     }
 
-    fun compareDigits(): Boolean {
-        val enteredOTP = otpDigits.joinToString(separator = "")
-        return enteredOTP == OTP.value
+    fun compareOTP(): Boolean {
+        if (inputOTP.value.length==4 && OTP.value.length==4 ){
+            if (inputOTP.value == OTP.value){
+                _inputOTP.value=""
+                return true
+            }
+
+        }
+       return false
     }
 
 

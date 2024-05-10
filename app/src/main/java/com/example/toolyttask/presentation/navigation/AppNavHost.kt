@@ -1,5 +1,6 @@
 package com.example.toolyttask.presentation.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -18,7 +19,7 @@ fun AppNavHost(
     loginViewModel: LoginViewModel,
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String = NavigationItem.Landing.route,
+    startDestination: String = NavigationItem.Profile.route,
 ) {
     NavHost(
         modifier = modifier,
@@ -63,11 +64,16 @@ fun AppNavHost(
                 getSavedNumber = {
                     return@OTP loginViewModel.phoneNumber.value
                 },
-                updateDigit = {index,digit->
-                    loginViewModel.updateDigit(index,digit)
+                updateDigit = {
+                    Log.d("DIRAJ","In update digit last lamda")
+                    loginViewModel.updateInputOTP(it)
                 },
-                getOtpDigitList = {
-                    return@OTP loginViewModel.otpDigits
+                getDigit = {
+                    Log.d("DIRAJ","In getOtpDigitList digit last lamda")
+                    return@OTP loginViewModel.inputOTP
+                },
+                compareOTP = {
+                    return@OTP loginViewModel.compareOTP()
                 }
             )
         }
