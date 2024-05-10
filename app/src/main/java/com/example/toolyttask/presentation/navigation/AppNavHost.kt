@@ -19,7 +19,7 @@ fun AppNavHost(
     loginViewModel: LoginViewModel,
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String = NavigationItem.Profile.route,
+    startDestination: String = NavigationItem.Landing.route,
 ) {
     NavHost(
         modifier = modifier,
