@@ -19,7 +19,7 @@ fun AppNavHost(
     loginViewModel: LoginViewModel,
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String = NavigationItem.Landing.route,
+    startDestination: String = NavigationItem.Login.route,
 ) {
     NavHost(
         modifier = modifier,
@@ -47,6 +47,7 @@ fun AppNavHost(
                     loginViewModel.generateOTP()
                 },
                 onDismissRequest = {
+                    loginViewModel.updateRequestOTPButtonState()
                     navController.navigate(NavigationItem.OTP.route)
                 },
                 isRequestOTPButtonClicked = {

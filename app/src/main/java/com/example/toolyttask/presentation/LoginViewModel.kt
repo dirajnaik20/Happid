@@ -145,5 +145,9 @@ class LoginViewModel @Inject constructor(
        return false
     }
 
+    fun updateRequestOTPButtonState() {
+        _isRequestOTPButtonClicked.value=!_isRequestOTPButtonClicked.value
+    }
+
 
 }
