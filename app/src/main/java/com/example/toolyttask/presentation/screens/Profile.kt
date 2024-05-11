@@ -47,7 +47,6 @@ fun Profile(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Red)
     ) {
         Row(
             modifier = Modifier
